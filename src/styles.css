@@ -1,1 +1,253 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.css or src/home/home.component.css */
+
+/* Global Styles */
+body {
+    background-image: url('/assets/stocks.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px; /* Ensure some padding on smaller screens */
+  }
+  
+  .header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
+  }
+  
+  .header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px; /* Limit the width for better text alignment */
+    padding: 20px;
+    margin: 0 auto; /* Center align the content */
+  }
+  
+  .header-content h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    line-height: 1.2; /* Improve spacing between lines */
+    color: #f5f5f5; /* Softer white color */
+  }
+  
+  .header-content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+    line-height: 1.6; /* Better readability */
+    color: #dcdcdc; /* Slightly lighter gray for better contrast */
+  }
+  
+  .apply-btn {
+    padding: 10px 20px;
+    background-color: #666;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+  }
+  
+  .apply-btn:hover {
+    background-color: #333;
+  }
+  
+  /* Agency Info Section */
+  .agency-info {
+    background-color:rgba(255, 255, 255, 0.8); /* Light background for better contrast */
+    padding: 40px 20px;
+    text-align: center;
+    margin: 40px auto;
+    max-width: 800px; /* Center the content and limit the width */
+    border-radius: 8px;
+  }
+  
+  .agency-info p {
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  /* Navbar */
+  .navbar {
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin: 0 15px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .home-btn {
+    background-color: black;
+    padding: 8px 15px;
+    border-radius: 5px;
+  }
+  
+  .service-btn {
+    background-color: grey;
+    padding: 8px 15px;
+    border-radius: 5px;
+  }
+  
+  /* Card Section */
+  .card-section {
+    display: flex;
+    justify-content: space-between; /* Distributes space between cards */
+    gap: 20px; /* Adds space between each card */
+    flex-wrap: wrap; /* Ensures the cards wrap on smaller screens */
+    padding: 20px; /* Adds some padding to the section */
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease; /* Animation for hover effect */
+    flex: 1; /* Makes the card flexible */
+    min-width: 300px; /* Ensures the cards don't get too narrow */
+    max-width: 32%; /* Limits the width of each card */
+    margin-bottom: 20px;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px); /* Animation: Move card up on hover */
+  }
+  
+  .card img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .card-title {
+    font-size: 24px;
+    margin: 15px 0;
+  }
+  
+  .card-text {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .view-details {
+    padding: 10px 15px;
+    background-color: grey;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .view-details:hover {
+    background-color: #333; /* Optional hover effect for the button */
+  }
+  
+  /* Footer Styles */
+  .footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .about-us, .connect-with-us {
+    flex: 1;
+    min-width: 250px; /* Ensures sections don’t shrink too much on smaller screens */
+  }
+  
+  .about-us h3, .connect-with-us h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .about-us p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  .connect-with-us ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .social-links li {
+    margin: 0 10px;
+  }
+  
+  .social-links a {
+    color: white;
+    font-size: 20px;
+  }
+  
+  .social-links img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .footer-bottom {
+    background-color: #222;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  .footer-bottom p {
+    margin: 0;
+    font-size: 14px;
+    color: #aaa;
+  }
+  
+  
