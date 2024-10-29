@@ -1,0 +1,24 @@
+<div class="container h-100">
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Chat with Our Bot</h4>
+                </div>
+                <div class="card-body bg-light">
+                    <p class="card-text text-center">Ask anything you want to know!</p>
+                    <div class="input-group input-group-lg mb-3">
+                        <input type="text" class="form-control" placeholder="Type your question here..." [(ngModel)]="prompt" aria-label="User input">
+                        <button class="btn btn-outline-primary" type="button" (click)="sendPrompt()">
+                            <i class="bi bi-send-fill"></i> Send
+                        </button>
+                    </div>
+                    <div *ngIf="response" class="alert alert-success mt-3 text-center" role="alert">
+                        <strong>Response:</strong>
+                        <p class="mb-0">{{ response }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
