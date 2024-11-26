@@ -19,7 +19,15 @@ import {PasswordResetService} from "./Modules/Services/password-reset.service";
 import {AuthInterceptor} from "./Auth/auth.interceptor";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthGuard} from "./Auth/auth.guard";
-
+import { AnalyseTechniqueComponent } from './Modules/Views/UserFront/analyse-technique/analyse-technique.component';
+import {BaseChartDirective} from "ng2-charts";
+import { FinancialAnalysisComponent } from './Modules/Views/UserFront/financial-analysis/financial-analysis.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { TableModule } from 'primeng/table';
+import { AnalyseComponent } from './Modules/Views/UserFront/analyse/analyse.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,14 +41,23 @@ import {AuthGuard} from "./Auth/auth.guard";
     ResetCodeComponent,
     BotChatComponent,
     LogoutComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AnalyseTechniqueComponent,
+    FinancialAnalysisComponent,
+    AnalyseComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BaseChartDirective,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+    TableModule,
   ],
   providers: [ AuthGuard,
     PasswordResetService,

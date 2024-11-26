@@ -1,0 +1,80 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.input-group {
+  max-width: 600px;
+  margin: auto;
+}
+
+.table {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.table .text-success {
+  font-weight: bold;
+  color: green;
+}
+
+.table .text-danger {
+  font-weight: bold;
+  color: red;
+}
+
+.alert {
+  text-align: center;
+}
+.table-responsive {
+  max-width: 100%; /* Limite la largeur */
+  overflow-x: auto; /* Ajoute un défilement horizontal si nécessaire */
+  margin: auto; /* Centrer le tableau */
+}
+
+.table {
+  background-color: white; /* Donne une meilleure visibilité sur un fond sombre */
+  color: black; /* Change le texte en noir */
+  font-size: 16px;
+  border: 1px solid #ccc; /* Ajoute une bordure légère */
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 10px;
+}
+
+.table th {
+  background-color: #007bff; /* Bleu pour l'entête */
+  color: white;
+}
+
+.table .text-success {
+  font-weight: bold;
+  color: #28a745; /* Vert plus visible */
+}
+
+.table .text-danger {
+  font-weight: bold;
+  color: #dc3545; /* Rouge plus visible */
+}
+
+.container {
+  padding: 20px;
+}
+
+input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.btn {
+  padding: 8px 12px;
+}

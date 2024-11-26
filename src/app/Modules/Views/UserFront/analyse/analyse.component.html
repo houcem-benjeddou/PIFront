@@ -1,0 +1,50 @@
+<div class="container">
+  <h2>Analyse complète pour le symbole : {{ symbol }}</h2>
+  <div class="input-container">
+    <input
+      type="text"
+      [(ngModel)]="symbol"
+      placeholder="Entrez un symbole d'action"
+      class="input-symbol"
+    />
+    <button class="action-btn" (click)="getRecommendationTrends()">Tendances de recommandation</button>
+    <button class="action-btn" (click)="getHistoricalOptions()">Options historiques</button>
+    <button class="action-btn" (click)="getRisk()">Évaluation du risque</button>
+    <button class="action-btn" (click)="getSentimentAnalysis()">Analyse sentimentale</button>
+  </div>
+
+  <!-- Affichage des données -->
+  <div *ngIf="recommendationTrends" class="result">
+    <h3>Tendances de recommandation</h3>
+    <pre>{{ recommendationTrends | json }}</pre>
+  </div>
+
+  <div *ngIf="historicalOptions" class="result">
+    <h3>Options historiques</h3>
+    <pre>{{ historicalOptions | json }}</pre>
+  </div>
+
+  <div *ngIf="risk" class="result">
+    <h3>Évaluation du risque</h3>
+    <pre>{{ risk | json }}</pre>
+  </div>
+
+  <div *ngIf="sentimentAnalysis" class="result">
+    <h3>Analyse sentimentale</h3>
+    <pre>{{ sentimentAnalysis | json }}</pre>
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Affichage du graphique -->
+  <div *ngIf="chartData.datasets[0].data.length > 0" class="chart-container">
+    <canvas baseChart
+            [datasets]="chartData.datasets"
+            [labels]="chartData.labels"
+            [options]="chartOptions"
+            [type]="chartType">
+    </canvas>
+  </div>
+</div>

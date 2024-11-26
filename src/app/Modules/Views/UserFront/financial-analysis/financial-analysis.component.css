@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 15px;
+}
+
+.search-card, .data-card, .chart-card {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.mat-elevation-z8 {
+  margin-top: 15px;
+  width: 100%;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}

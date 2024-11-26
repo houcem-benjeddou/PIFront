@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2 class="text-primary">Analyse Technique</h2>
+  <p>Obtenez les dernières informations sur les actions financières.</p>
+
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Entrez un symbole d'action (ex: AAPL)"
+      [(ngModel)]="symbol"
+    />
+    <button class="btn btn-primary" (click)="searchSymbol()">Rechercher</button>
+  </div>
+
+  <div *ngIf="stockData" class="table-responsive mt-4">
+    <table class="table table-bordered table-striped shadow">
+      <thead>
+      <tr>
+        <th>Symbole</th>
+        <th>Prix Actuel</th>
+        <th>Prix d'Ouverture</th>
+        <th>Prix Haut</th>
+        <th>Prix Bas</th>
+        <th>Fermeture Précédente</th>
+        <th>Changement</th>
+        <th>% Changement</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{ symbol.toUpperCase() }}</td>
+        <td>{{ stockData.current }}</td>
+        <td>{{ stockData.open }}</td>
+        <td>{{ stockData.high }}</td>
+        <td>{{ stockData.low }}</td>
+        <td>{{ stockData.previousClose }}</td>
+        <td
+          [ngClass]="{'text-success': stockData.change > 0, 'text-danger': stockData.change < 0}">
+          {{ stockData.change }}
+        </td>
+        <td
+          [ngClass]="{'text-success': stockData.changePercent > 0, 'text-danger': stockData.changePercent < 0}">
+          {{ stockData.changePercent | number: '1.2-2' }}%
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
