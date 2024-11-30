@@ -69,6 +69,25 @@ export class AnalyseComponent implements OnInit {
     };
   }
 
+  // Initialisation des données pour le graphique en barres (sans la propriété 'fill')
+  initializeBarChartData(
+    label: string,
+    borderColor: string,
+    backgroundColor: string
+  ): ChartData<'bar'> {
+    return {
+      labels: [], // Les attributs (ex: last, strike, etc.)
+      datasets: [
+        {
+          label,
+          data: [], // Les moyennes des attributs
+          borderColor,
+          backgroundColor,
+        },
+      ],
+    };
+  }
+
   // Gestion des erreurs d'API
   handleApiError(err: any, message: string): void {
     console.error(message, err);
@@ -123,9 +142,6 @@ export class AnalyseComponent implements OnInit {
             return;
           }
 
-          // Affichage des données brutes pour déboguer
-          console.log('Raw options:', rawData);
-
           // Filtrage des options valides
           const validOptions = rawData.filter((item, index) => {
             const isValid = this.isValidOption(item);
@@ -135,19 +151,41 @@ export class AnalyseComponent implements OnInit {
             return isValid;
           });
 
-          console.log('Options valides après filtrage:', validOptions);
-
           if (validOptions.length > 0) {
-            // Calcul de la moyenne des valeurs 'last' des options valides
-            const sum = validOptions.reduce((acc, opt) => acc + parseFloat(opt.last), 0); // Assurez-vous que 'last' est un nombre
-            const average = sum / validOptions.length;
+            // Calcul des moyennes des attributs
+            const averages: { [key in 'last' | 'strike' | 'delta' | 'gamma' | 'theta' | 'vega']: number } = {
+              last: 0,
+              strike: 0,
+              delta: 0,
+              gamma: 0,
+              theta: 0,
+              vega: 0
+            };
 
-            console.log('Moyenne des options historiques:', average);
+            validOptions.forEach(option => {
+              averages.last += parseFloat(option.last);
+              averages.strike += parseFloat(option.strike);
+              averages.delta += parseFloat(option.delta);
+              averages.gamma += parseFloat(option.gamma);
+              averages.theta += parseFloat(option.theta);
+              averages.vega += parseFloat(option.vega);
+            });
 
-            // Mise à jour des données du graphique
-            this.historicalOptions = [{ expiration: 'Moyenne', last: average }];
-            this.historicalChartData.labels = ['Moyenne des options']; // Label du graphique
-            this.historicalChartData.datasets[0].data = [average]; // Données du graphique
+            // Calcul des moyennes
+            Object.keys(averages).forEach(key => {
+              averages[key as keyof typeof averages] /= validOptions.length;
+            });
+
+            // Mise à jour des données du graphique en barres
+            this.historicalChartData.labels = ['Last', 'Strike', 'Delta', 'Gamma', 'Theta', 'Vega']; // Attributs
+            this.historicalChartData.datasets[0].data = [
+              averages.last,
+              averages.strike,
+              averages.delta,
+              averages.gamma,
+              averages.theta,
+              averages.vega
+            ]; // Moyennes des attributs
 
             this.selectedChart = 'historical'; // Afficher ce graphique
           } else {
@@ -174,31 +212,24 @@ export class AnalyseComponent implements OnInit {
       return false;
     }
 
-    // Convertir 'last' et 'strike' en nombre
+    // Convertir 'last', 'strike', etc. en nombre
     const lastValue = parseFloat(item.last);
     const strikeValue = parseFloat(item.strike);
+    const deltaValue = parseFloat(item.delta);
+    const gammaValue = parseFloat(item.gamma);
+    const thetaValue = parseFloat(item.theta);
+    const vegaValue = parseFloat(item.vega);
 
     // Validation des valeurs numériques
-    if (isNaN(lastValue) || isNaN(strikeValue)) {
-      console.warn(`'last' ou 'strike' ne sont pas des nombres valides. last: ${item.last}, strike: ${item.strike}`);
-      return false; // Si 'last' ou 'strike' ne sont pas des nombres valides, l'option est invalide
-    }
-
-    // Vérification des autres propriétés
     return (
-      item.contractID && // Assurez-vous que contractID existe et n'est pas vide
-      typeof item.contractID === 'string' &&
-      item.type && // Vérifiez que le type existe
-      typeof item.type === 'string' &&
-      item.expiration && // Vérifiez que la date d'expiration existe
-      typeof item.expiration === 'string' &&
-      item.last !== undefined && // Vérifiez que 'last' est défini (et n'est pas null)
-      typeof item.last === 'string' && // 'last' est une chaîne dans la réponse, vérifions cela avant de le convertir
-      item.strike && // Vérifiez que 'strike' existe
-      typeof item.strike === 'string' // 'strike' est également une chaîne dans la réponse
+      !isNaN(lastValue) &&
+      !isNaN(strikeValue) &&
+      !isNaN(deltaValue) &&
+      !isNaN(gammaValue) &&
+      !isNaN(thetaValue) &&
+      !isNaN(vegaValue)
     );
   }
-
 
 
   // Récupération des données de risque
