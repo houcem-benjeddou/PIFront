@@ -1,50 +1,69 @@
-<div class="container">
-  <h2>Analyse complète pour le symbole : {{ symbol }}</h2>
+<div class="container mt-5">
+  <h2 class="text-center">Analyse du Marché pour le Symbole : {{ symbol }}</h2>
   <div class="input-container">
-    <input
-      type="text"
-      [(ngModel)]="symbol"
-      placeholder="Entrez un symbole d'action"
-      class="input-symbol"
-    />
-    <button class="action-btn" (click)="getRecommendationTrends()">Tendances de recommandation</button>
-    <button class="action-btn" (click)="getHistoricalOptions()">Options historiques</button>
-    <button class="action-btn" (click)="getRisk()">Évaluation du risque</button>
-    <button class="action-btn" (click)="getSentimentAnalysis()">Analyse sentimentale</button>
+    <input [(ngModel)]="symbol" class="form-control input-symbol" placeholder="Entrez un symbole (ex: AAPL)" />
+    <div class="buttons">
+      <button class="btn btn-primary" (click)="getRecommendationTrends()">Tendances de Recommandation</button>
+      <button class="btn btn-info" (click)="getHistoricalOptions()">Options Historiques</button>
+      <button class="btn btn-warning" (click)="getRisk()">Évaluation du Risque</button>
+      <button class="btn btn-success" (click)="getSentimentAnalysis()">Analyse Sentimentale</button>
+    </div>
   </div>
 
-  <!-- Affichage des données -->
-  <div *ngIf="recommendationTrends" class="result">
-    <h3>Tendances de recommandation</h3>
-    <pre>{{ recommendationTrends | json }}</pre>
+  <!-- Affichage des erreurs -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    <strong>Erreur!</strong> {{ errorMessage }}
   </div>
 
-  <div *ngIf="historicalOptions" class="result">
-    <h3>Options historiques</h3>
-    <pre>{{ historicalOptions | json }}</pre>
+  <!-- Cartes pour afficher les résultats -->
+  <!-- Tendances de recommandation -->
+  <div *ngIf="selectedChart === 'recommendation'" class="card">
+    <div class="card-header">
+      <h4>Tendances de Recommandation</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <canvas baseChart [data]="recommendationChartData" [options]="chartOptions" [type]="chartType"></canvas>
+        </div>
+        <div class="col-md-6">
+          <div class="trend-indicator">
+            <h5>Recommandation: {{ recommendationTrends?.buy > 0.5 ? 'Acheter' : 'Vendre' }}</h5>
+            <div *ngIf="recommendationTrends?.buy > 0.5" class="indicator buy">💚</div>
+            <div *ngIf="recommendationTrends?.buy <= 0.5" class="indicator sell">💔</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="risk" class="result">
-    <h3>Évaluation du risque</h3>
-    <pre>{{ risk | json }}</pre>
+  <!-- Options historiques -->
+  <div *ngIf="selectedChart === 'historical'" class="card">
+    <div class="card-header">
+      <h4>Options Historiques</h4>
+    </div>
+    <div class="card-body">
+      <canvas baseChart [data]="historicalChartData" [options]="chartOptions" [type]="chartType"></canvas>
+    </div>
   </div>
 
-  <div *ngIf="sentimentAnalysis" class="result">
-    <h3>Analyse sentimentale</h3>
-    <pre>{{ sentimentAnalysis | json }}</pre>
+  <!-- Risque -->
+  <div *ngIf="selectedChart === 'risk'" class="card">
+    <div class="card-header">
+      <h4>Évaluation du Risque</h4>
+    </div>
+    <div class="card-body">
+      <canvas baseChart [data]="riskChartData" [options]="chartOptions" [type]="chartType"></canvas>
+    </div>
   </div>
 
-  <div *ngIf="errorMessage" class="error">
-    <p>{{ errorMessage }}</p>
-  </div>
-
-  <!-- Affichage du graphique -->
-  <div *ngIf="chartData.datasets[0].data.length > 0" class="chart-container">
-    <canvas baseChart
-            [datasets]="chartData.datasets"
-            [labels]="chartData.labels"
-            [options]="chartOptions"
-            [type]="chartType">
-    </canvas>
+  <!-- Sentiment -->
+  <div *ngIf="selectedChart === 'sentiment'" class="card">
+    <div class="card-header">
+      <h4>Analyse Sentimentale</h4>
+    </div>
+    <div class="card-body">
+      <p>{{ sentimentAnalysis }}</p>
+    </div>
   </div>
 </div>

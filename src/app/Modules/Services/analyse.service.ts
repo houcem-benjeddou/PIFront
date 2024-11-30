@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import {environment} from "../../../environments/environment";
+import {catchError, Observable, throwError} from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { RiskData } from "../Classes/models";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnalyseService {
-  private baseUrl = environment.baseUrl + '/analyse';
+  private baseUrl = `${environment.baseUrl}/analyse`;
 
   constructor(private http: HttpClient) {}
 
@@ -19,17 +20,19 @@ export class AnalyseService {
     return this.http.get(`${this.baseUrl}/recommendation`, { params: { symbol } });
   }
 
-  getHistoricalOptions(symbol: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/historical-options`, {
-      params: { symbol },
-    });
+  getHistoricalOptions(symbol: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/historical-options`, {
+      params: { symbol }
+    }).pipe(
+      catchError(error => {
+        console.error('Error fetching historical options', error);
+        return throwError(() => new Error('Failed to fetch historical options'));
+      })
+    );
   }
 
-  calculateRisk(symbol: string): Observable<string> {
-    return this.http.get(`${this.baseUrl}/risk`, {
-      params: { symbol },
-      responseType: 'text',
-    });
+  calculateRisk(symbol: string): Observable<RiskData> {
+    return this.http.get<RiskData>(`${this.baseUrl}/risk`, { params: { symbol } });
   }
 
   getBasicFinancials(symbol: string): Observable<any> {
