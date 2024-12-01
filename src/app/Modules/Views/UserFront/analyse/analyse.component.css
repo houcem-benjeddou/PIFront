@@ -244,3 +244,124 @@ canvas {
 .neutral {
   color: rgb(128, 128, 128);
 }
+.container-fluid {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+}
+
+.card-body.chart-full {
+  padding: 0;
+}
+
+canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.buttons {
+  margin: 10px 0;
+}
+
+.buttons button {
+  margin-right: 5px;
+  padding: 10px 15px;
+}
+
+.input-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.input-group {
+  max-width: 600px;
+  margin: auto;
+}
+
+.table {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.table .text-success {
+  font-weight: bold;
+  color: green;
+}
+
+.table .text-danger {
+  font-weight: bold;
+  color: red;
+}
+
+.alert {
+  text-align: center;
+}
+.table-responsive {
+  max-width: 100%; /* Limite la largeur */
+  overflow-x: auto; /* Ajoute un défilement horizontal si nécessaire */
+  margin: auto; /* Centrer le tableau */
+}
+
+.table {
+  background-color: white; /* Donne une meilleure visibilité sur un fond sombre */
+  color: black; /* Change le texte en noir */
+  font-size: 16px;
+  border: 1px solid #ccc; /* Ajoute une bordure légère */
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 10px;
+}
+
+.table th {
+  background-color: #007bff; /* Bleu pour l'entête */
+  color: white;
+}
+
+.table .text-success {
+  font-weight: bold;
+  color: #28a745; /* Vert plus visible */
+}
+
+.table .text-danger {
+  font-weight: bold;
+  color: #dc3545; /* Rouge plus visible */
+}
+
+.container {
+  padding: 20px;
+}
+
+input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.btn {
+  padding: 8px 12px;
+}
+.top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.top-right button {
+  font-size: 14px;
+  padding: 10px 20px;
+}

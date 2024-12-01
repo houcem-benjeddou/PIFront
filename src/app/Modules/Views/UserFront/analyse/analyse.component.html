@@ -1,12 +1,16 @@
-<div class="container mt-5">
-  <h2 class="text-center">Analyse du Marché pour le Symbole : {{ symbol }}</h2>
+<div class="container-fluid mt-5 text-center">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Analyse du Marché pour le Symbole : {{ symbol }}</h2>
+    <button class="btn btn-secondary" (click)="navigateToAnaf()">Analyse fondamentale</button>
+  </div>
   <div class="input-container">
     <input [(ngModel)]="symbol" class="form-control input-symbol" placeholder="Entrez un symbole (ex: AAPL)" />
     <div class="buttons">
       <button class="btn btn-primary" (click)="getRecommendationTrends()">Tendances de Recommandation</button>
       <button class="btn btn-info" (click)="getHistoricalOptions()">Options Historiques</button>
       <button class="btn btn-warning" (click)="getRisk()">Évaluation du Risque</button>
-      <button class="btn btn-success" (click)="getSentimentAnalysis()">Analyse Sentimentale</button>
+      <button class="btn btn-warning" (click)="loadStockQuote()">Quota</button>
+<!--      <button class="btn btn-success" (click)="getSentimentAnalysis()">Analyse Sentimentale</button>-->
     </div>
   </div>
 
@@ -17,16 +21,16 @@
 
   <!-- Cartes pour afficher les résultats -->
   <!-- Tendances de recommandation -->
-  <div *ngIf="selectedChart === 'recommendation'" class="card">
+  <div *ngIf="selectedChart === 'recommendation'" class="card chart-card mx-auto">
     <div class="card-header">
       <h4>Tendances de Recommandation</h4>
     </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
+    <div class="card-body text-center">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
           <canvas baseChart [data]="recommendationChartData" [options]="chartOptions" [type]="chartType"></canvas>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="trend-indicator">
             <h5>Recommandation: {{ recommendationTrends?.buy > 0.5 ? 'Acheter' : 'Vendre' }}</h5>
             <div *ngIf="recommendationTrends?.buy > 0.5" class="indicator buy">💚</div>
@@ -42,7 +46,7 @@
     <div class="card-header">
       <h4>Options Historiques</h4>
     </div>
-    <div class="card-body">
+    <div class="card-body chart-full">
       <canvas baseChart [data]="historicalChartData" [options]="chartOptions" [type]="chartType"></canvas>
     </div>
   </div>
@@ -56,7 +60,40 @@
       <canvas baseChart [data]="riskChartData" [options]="chartOptions" [type]="chartType"></canvas>
     </div>
   </div>
-
+  <div *ngIf="stockData" class="table-responsive mt-4">
+    <table class="table table-bordered table-striped shadow">
+      <thead>
+      <tr>
+        <th>Symbole</th>
+        <th>Prix Actuel</th>
+        <th>Prix d'Ouverture</th>
+        <th>Prix Haut</th>
+        <th>Prix Bas</th>
+        <th>Fermeture Précédente</th>
+        <th>Changement</th>
+        <th>% Changement</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{ symbol.toUpperCase() }}</td>
+        <td>{{ stockData.current }}</td>
+        <td>{{ stockData.open }}</td>
+        <td>{{ stockData.high }}</td>
+        <td>{{ stockData.low }}</td>
+        <td>{{ stockData.previousClose }}</td>
+        <td
+          [ngClass]="{'text-success': stockData.change > 0, 'text-danger': stockData.change < 0}">
+          {{ stockData.change }}
+        </td>
+        <td
+          [ngClass]="{'text-success': stockData.changePercent > 0, 'text-danger': stockData.changePercent < 0}">
+          {{ stockData.changePercent | number: '1.2-2' }}%
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <!-- Sentiment -->
   <div *ngIf="selectedChart === 'sentiment'" class="card">
     <div class="card-header">
