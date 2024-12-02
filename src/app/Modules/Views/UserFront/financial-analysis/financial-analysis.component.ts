@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import {AnalyseService} from "../../../Services/analyse.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-financial-analysis',
@@ -13,7 +14,7 @@ export class FinancialAnalysisComponent implements OnInit {
   chart: any; // Instance du graphique
   searchSymbol: string = ''; // Champ de recherche utilisateur
 
-  constructor(private analyseService: AnalyseService) {
+  constructor(private analyseService: AnalyseService, private router: Router) {
     Chart.register(...registerables); // Enregistre les composants nécessaires pour Chart.js
   }
 
@@ -78,5 +79,8 @@ export class FinancialAnalysisComponent implements OnInit {
         },
       },
     });
+  }
+  navigateToAna() {
+    this.router.navigate(['/ana']);
   }
 }

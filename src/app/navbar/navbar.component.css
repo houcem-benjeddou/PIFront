@@ -22,4 +22,36 @@ nav {
   a:hover {
     color: #0056b3;
   }
-  
+button[mat-button] {
+  display: flex;
+  align-items: center;
+  background-color: #6c757d; /* Couleur secondaire */
+  color: white;
+  border-radius: 5px;
+  padding: 10px 15px;
+  text-transform: none;
+  font-size: 1rem;
+}
+
+mat-menu {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px 0;
+}
+
+mat-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+mat-menu-item:hover {
+  background-color: #f1f1f1;
+}
+
+.material-icons {
+  font-size: 20px;
+}

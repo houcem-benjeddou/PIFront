@@ -1,15 +1,17 @@
-<div class="container-fluid px-4">
-  <!-- Carte pour la recherche -->
-  <mat-card>
+<div class="container">
+  <!-- Carte de Recherche -->
+  <mat-card class="search-card">
     <mat-card-header>
       <mat-card-title>Analyse Financière</mat-card-title>
+      <button class="btn btn-secondary" (click)="navigateToAna()">Analyse technique</button>
+
       <mat-card-subtitle>
-        Entrez un symbole pour obtenir des données financières.
+        Entrez un symbole pour obtenir des données financières clés et un graphique interactif.
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div class="input-group mt-2">
-        <mat-form-field appearance="outline" class="w-100">
+      <div class="search-bar">
+        <mat-form-field appearance="outline" class="flex-grow-1">
           <mat-label>Symbole</mat-label>
           <input
             matInput
@@ -20,7 +22,6 @@
         <button
           mat-raised-button
           color="primary"
-          class="mt-2"
           (click)="searchFinancialData()"
         >
           Rechercher
@@ -29,27 +30,36 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Tableau des résultats -->
-  <div *ngIf="financialData" class="mt-4">
-    <p-table [value]="[financialData]" responsiveLayout="scroll">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Métrique</th>
-          <th>Valeur</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-item>
-        <tr *ngFor="let key of financialData | keyvalue">
-          <td>{{ key.key }}</td>
-          <td>{{ key.value }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+  <!-- Tableau des Données -->
+  <mat-card *ngIf="financialData" class="data-card">
+    <mat-card-header>
+      <mat-card-title>Données Financières</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p-table [value]="[financialData]" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Métrique</th>
+            <th>Valeur</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr *ngFor="let key of financialData | keyvalue">
+            <td>{{ key.key }}</td>
+            <td>{{ key.value }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-card-content>
+  </mat-card>
 
   <!-- Graphique -->
-  <div class="mt-4">
-    <h3>Graphique des Données Clés</h3>
-    <canvas id="financialChart" class="w-100"></canvas>
-  </div>
+  <mat-card class="chart-card">
+    <mat-card-header>
+      <mat-card-title>Graphique des Données Clés</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <canvas id="financialChart"></canvas>
+    </mat-card-content>
+  </mat-card>
 </div>

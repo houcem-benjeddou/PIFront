@@ -30,6 +30,7 @@ import { TableModule } from 'primeng/table';
 import { AnalyseComponent } from './Modules/Views/UserFront/analyse/analyse.component';
 import { registerables } from 'chart.js';
 import { Chart } from 'chart.js';
+import {MatMenuModule} from "@angular/material/menu";
 Chart.register(...registerables);  // Register everything you need for charts
 
 @NgModule({
@@ -62,6 +63,7 @@ Chart.register(...registerables);  // Register everything you need for charts
     MatInputModule,
     MatButtonModule,
     TableModule,
+    MatMenuModule,
   ],
   providers: [
     AuthGuard,

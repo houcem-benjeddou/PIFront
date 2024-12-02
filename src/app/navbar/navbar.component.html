@@ -1,20 +1,50 @@
 <nav>
-    <img src="assets/tradey.webp" alt="Logo" class="logo">
-    <div class="navbar-collapse w-100 collapse" id="navbarCollapse">
+  <img src="assets/tradey.webp" alt="Logo" class="logo">
+  <div class="navbar-collapse w-100 collapse" id="navbarCollapse">
 
-        <ul class="navbar-nav navbar-nav-scroll mx-auto">
-            <li class="nav-item">
-                <a href="/chatgpt" class="nav-link btn btn-primary text-white"  data-bs-target="#chatbotModal">
-                    <i class="fas fa-robot me-2"></i>Chat with Bot
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <ul>
-      <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/register">Join Us Now</a></li>
+    <ul class="navbar-nav navbar-nav-scroll mx-auto">
+      <li class="nav-item">
+        <a href="/chatgpt" class="nav-link btn btn-primary text-white" data-bs-target="#chatbotModal">
+          <i class="fas fa-robot me-2"></i> Chat with Bot
+        </a>
+      </li>
     </ul>
+  </div>
+  <ul class="navbar-nav navbar-nav-scroll mx-auto">
+    <li class="nav-item">
+      <a href="/ana" class="nav-link btn btn-primary text-white" >
+        <i class="fas fa-robot me-2"></i> Analyse
+      </a>
+    </li>
+  </ul>
+<!--  <ul>-->
+<!--    <li>-->
+<!--      &lt;!&ndash; Bouton principal pour afficher les options &ndash;&gt;-->
+<!--      <button-->
+<!--        mat-button-->
+<!--        [matMenuTriggerFor]="analyseMenu"-->
+<!--        class="btn btn-secondary d-flex align-items-center"-->
+<!--      >-->
+<!--        <i class="material-icons">menu</i>-->
+<!--        <span class="ms-2">Analyse</span>-->
+<!--      </button>-->
 
+<!--      &lt;!&ndash; Menu déroulant avec deux options &ndash;&gt;-->
+<!--      <mat-menu #analyseMenu="matMenu">-->
+<!--        <button mat-menu-item (click)="navigateToAna()">-->
+<!--          <i class="material-icons">insights</i>-->
+<!--          <span>Analyse vers Ana</span>-->
+<!--        </button>-->
+<!--        <button mat-menu-item (click)="navigateToAnaf()">-->
+<!--          <i class="material-icons">analytics</i>-->
+<!--          <span>Analyse vers Anaf</span>-->
+<!--        </button>-->
+<!--      </mat-menu>-->
+<!--    </li>-->
+<!--  </ul>-->
+  <ul>
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/register">Join Us Now</a></li>
 
-  </nav>
+  </ul>
+</nav>
