@@ -5,7 +5,35 @@ import { Component, OnInit } from '@angular/core';
 import { AnalyseService } from '../../../Services/analyse.service';
 import { ChartOptions, ChartData, ChartType } from 'chart.js';
 import {Router} from "@angular/router";
-
+interface SentimentSentiment {
+  ticker: string;
+  relevance_score: string;
+  positive_sentiment: number;
+  negative_sentiment: number;
+  neutral_sentiment: number;
+  ticker_sentiment_score?: string;
+  ticker_sentiment_label?: string;
+}
+interface Topic {
+  topic: string;
+  relevance_score: string;
+}
+interface NewsSentiment {
+  feed: Array<{
+    title: string;
+    url: string;
+    time_published: string;
+    authors: string[];
+    summary: string;
+    banner_image: string;
+    source: string;
+    category_within_source: string;
+    topics: Topic[];
+    overall_sentiment_score: string;
+    overall_sentiment_label: string;
+    ticker_sentiment: SentimentSentiment[];
+  }>;
+}
 @Component({
   selector: 'app-analyse',
   templateUrl: './analyse.component.html',
@@ -19,7 +47,7 @@ export class AnalyseComponent implements OnInit {
   recommendationTrends: any = null;
   historicalOptions: any[] = [];
   risk: any = null;
-  sentimentAnalysis: string | null = null;
+  sentimentAnalysis: NewsSentiment | null = null;
 
   // Configuration des graphiques
   chartOptions: ChartOptions = {
@@ -55,6 +83,35 @@ export class AnalyseComponent implements OnInit {
     'rgba(54, 162, 235, 0.5)',
     'rgb(54, 162, 235)'
   );
+  sentimentChartData: ChartData<'pie'> = {
+    labels: ['Positif', 'Négatif', 'Neutre'],
+    datasets: [{
+      data: [0, 0, 0],
+      backgroundColor: [
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(201, 203, 207, 0.6)'
+      ],
+      borderColor: [
+        'rgba(75, 192, 192, 1)',
+        'rgba(255, 99, 132, 1)',
+        'rgba(201, 203, 207, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+  sentimentChartOptions: ChartOptions<'pie'> = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Analyse Sentimentale'
+      }
+    }
+  };
 
   // Moyennes pour les calculs
   averages: Record<string, number> = this.initializeAverages();
@@ -114,7 +171,19 @@ export class AnalyseComponent implements OnInit {
       ],
     };
   }
-
+  private initializePieChart(): ChartData<'pie'> {
+    return {
+      labels: ['Positif', 'Négatif', 'Neutre'],
+      datasets: [
+        {
+          data: [0, 0, 0],
+          backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(201, 203, 207, 0.6)'],
+          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(201, 203, 207, 1)'],
+          borderWidth: 1,
+        },
+      ],
+    };
+  }
   // Validation de l'entrée utilisateur
   private validateSymbol(): boolean {
     if (!this.symbol.trim()) {
@@ -240,18 +309,70 @@ export class AnalyseComponent implements OnInit {
   getSentimentAnalysis(): void {
     if (this.validateSymbol()) {
       this.analyseService.getSentimentAnalysis(this.symbol).subscribe({
-        next: (data) => {
-          this.sentimentAnalysis = data || 'Aucune analyse disponible.';
-          this.selectedChart = 'sentiment';
+        next: (data: NewsSentiment) => {
+          this.sentimentAnalysis = data || null;
+          this.updateSentimentChart();
         },
-        error: (err) =>
-          this.handleApiError(
-            err,
-            'Erreur lors de l’analyse sentimentale.'
-          ),
+        error: (err) => this.handleError(err, 'Erreur lors de l’analyse sentimentale.'),
       });
     }
   }
+
+
+  updateSentimentChart(): void {
+    if (this.sentimentAnalysis && this.sentimentAnalysis.feed.length > 0) {
+      // Exemple de récupération de sentiment d'un article
+      const article = this.sentimentAnalysis.feed[0];
+      const tickerSentiment = article.ticker_sentiment.find(
+        (ts) => ts.ticker.toUpperCase() === this.symbol.toUpperCase()
+      );
+
+      if (tickerSentiment) {
+        const sentimentScore = parseFloat(tickerSentiment.ticker_sentiment_score || '0');
+        const sentimentLabel = tickerSentiment.ticker_sentiment_label || 'Neutre';
+
+        let positive = 0, negative = 0, neutral = 0;
+
+        if (sentimentScore >= 0.35) {
+          positive = 100;
+        } else if (sentimentScore >= 0.15) {
+          positive = 70;
+          neutral = 30;
+        } else if (sentimentScore > -0.15) {
+          neutral = 100;
+        } else if (sentimentScore > -0.35) {
+          negative = 70;
+          neutral = 30;
+        } else {
+          negative = 100;
+        }
+
+        this.sentimentChartData.datasets[0].data = [positive, negative, neutral];
+        this.sentimentChartOptions.plugins!.title!.text = `Sentiment: ${sentimentLabel}`;
+      } else {
+        this.sentimentChartData.datasets[0].data = [0, 0, 0];
+      }
+    } else {
+      this.sentimentChartData.datasets[0].data = [0, 0, 0];
+    }
+  }
+  private handleError(err: any, message: string): void {
+    console.error(message, err);
+    this.errorMessage = message;
+  }
+
+  getTotalSentiment(type: 'positive_sentiment' | 'negative_sentiment' | 'neutral_sentiment'): number {
+    if (this.sentimentAnalysis && this.sentimentAnalysis.feed.length > 0) {
+      const tickerSentiment = this.sentimentAnalysis.feed[0].ticker_sentiment.find(
+        ts => ts.ticker.toUpperCase() === this.symbol.toUpperCase()
+      );
+      if (tickerSentiment) {
+        return tickerSentiment[type];
+      }
+    }
+    return 0;
+  }
+
   navigateToAnaf() {
     this.router.navigate(['/anaf']);
   }

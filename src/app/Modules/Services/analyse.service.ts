@@ -1,9 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {catchError, Observable, throwError} from 'rxjs';
+import {catchError, map, Observable, throwError} from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RiskData } from "../Classes/models";
+export interface SentimentSentiment {
+  ticker: string;
+  relevance_score: string;
+  positive_sentiment: number;
+  negative_sentiment: number;
+  neutral_sentiment: number;
+  ticker_sentiment_score?: string;
+  ticker_sentiment_label?: string;
+}
 
+export interface Topic {
+  topic: string;
+  relevance_score: string;
+}
+
+export interface NewsSentiment {
+  feed: Array<{
+    title: string;
+    url: string;
+    time_published: string;
+    authors: string[];
+    summary: string;
+    banner_image: string;
+    source: string;
+    category_within_source: string;
+    topics: Topic[];
+    overall_sentiment_score: string;
+    overall_sentiment_label: string;
+    ticker_sentiment: SentimentSentiment[];
+  }>;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -46,11 +76,13 @@ export class AnalyseService {
     });
   }
 
-  getSentimentAnalysis(symbol: string): Observable<string> {
+  getSentimentAnalysis(symbol: string): Observable<NewsSentiment> {
     return this.http.get(`${this.baseUrl}/sentiment`, {
       params: { symbol },
-      responseType: 'text',
-    });
+      responseType: 'text', // Recevoir la réponse en tant que texte
+    }).pipe(
+      map(response => JSON.parse(response)) // Parser le JSON
+    );
   }
 
   performSentimentAnalysis(text: string): Observable<string> {

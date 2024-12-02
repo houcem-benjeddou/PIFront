@@ -10,7 +10,7 @@
       <button class="btn btn-info" (click)="getHistoricalOptions()">Options Historiques</button>
       <button class="btn btn-warning" (click)="getRisk()">Évaluation du Risque</button>
       <button class="btn btn-warning" (click)="loadStockQuote()">Quota</button>
-<!--      <button class="btn btn-success" (click)="getSentimentAnalysis()">Analyse Sentimentale</button>-->
+      <button class="btn btn-success" (click)="getSentimentAnalysis()">Analyse Sentimentale</button>
     </div>
   </div>
 
@@ -95,12 +95,61 @@
     </table>
   </div>
   <!-- Sentiment -->
-  <div *ngIf="selectedChart === 'sentiment'" class="card">
-    <div class="card-header">
-      <h4>Analyse Sentimentale</h4>
+  <div *ngIf="sentimentAnalysis" class="sentiment-section">
+    <!-- Graphique -->
+    <div class="chart-container">
+      <canvas
+        baseChart
+        [data]="sentimentChartData"
+        [options]="sentimentChartOptions"
+        [type]="'pie'"
+        class="sentiment-chart"
+      ></canvas>
     </div>
-    <div class="card-body">
-      <p>{{ sentimentAnalysis }}</p>
+
+    <!-- Tableau des sentiments -->
+    <div class="table-container mt-4">
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>URL</th>
+          <th>Time Published</th>
+          <th>Authors</th>
+          <th>Summary</th>
+          <th>Source</th>
+          <th>Category</th>
+          <th>Overall Sentiment</th>
+          <th>Ticker Sentiment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let article of sentimentAnalysis.feed">
+          <td>{{ article.title }}</td>
+          <td><a [href]="article.url" target="_blank">{{ article.url }}</a></td>
+          <td>{{ article.time_published }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let author of article.authors">{{ author }}</li>
+            </ul>
+          </td>
+          <td>{{ article.summary }}</td>
+          <td>{{ article.source }}</td>
+          <td>{{ article.category_within_source }}</td>
+          <td>{{ article.overall_sentiment_label }} ({{ article.overall_sentiment_score }})</td>
+          <td>
+            <ul>
+              <li *ngFor="let sentiment of article.ticker_sentiment">
+                <strong>{{ sentiment.ticker }}:</strong>
+                {{ sentiment.ticker_sentiment_label }} ({{ sentiment.ticker_sentiment_score }})
+              </li>
+            </ul>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+
 </div>
