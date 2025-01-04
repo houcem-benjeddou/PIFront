@@ -1,0 +1,79 @@
+<div class="wrapper">
+  <h1>Place an Order</h1>
+
+  <!-- Input for asset name and load data -->
+  <div class="input-container">
+    <input type="text" [(ngModel)]="assetName" placeholder="Enter asset name" />
+    <button (click)="loadData(assetName)" [disabled]="!assetName || isLoading">
+      Load Data
+    </button>
+  </div>
+  <div *ngIf="isLoading">Loading data, please wait...</div>
+
+  <!-- Display current price -->
+  <div *ngIf="currentPrice !== null" class="price-container">
+    <p>Current Price: {{ currentPrice }}</p>
+  </div>
+
+  <!-- Chart canvas -->
+  <div class="chart-container">
+    <canvas #lineChart></canvas>
+  </div>
+
+  <!-- Buttons for timeframes -->
+  <div class="controls">
+    <h3>View Data</h3>
+    <button (click)="fetchHistoricalData(assetName, '1hour')" [disabled]="!assetName || isLoading">
+      1 Hour
+    </button>
+    <button (click)="fetchHistoricalData(assetName, '5hours')" [disabled]="!assetName || isLoading">
+      5 Hours
+    </button>
+    <button (click)="fetchHistoricalData(assetName, '1day')" [disabled]="!assetName || isLoading">
+      1 Day
+    </button>
+    <button (click)="fetchHistoricalData(assetName, '5days')" [disabled]="!assetName || isLoading">
+      5 Days
+    </button>
+    <button (click)="fetchHistoricalData(assetName, '1month')" [disabled]="!assetName || isLoading">
+      1 Month
+    </button>
+  </div>
+
+  <!-- Order Form -->
+  <div class="order-form">
+    <h2>Place an Order</h2>
+
+    <div>
+      <label for="portfolioId">Portfolio ID:</label>
+      <input type="number" id="portfolioId" [(ngModel)]="order.portfolioId" placeholder="Enter Portfolio ID" />
+    </div>
+
+    <div>
+      <label for="assetName">Asset Name:</label>
+      <input type="text" id="assetName" [(ngModel)]="order.assetName" placeholder="Enter Asset Name" />
+    </div>
+
+    <div>
+      <label for="price">Price:</label>
+      <input type="number" id="price" [(ngModel)]="order.price" placeholder="Enter Price" />
+    </div>
+
+    <div>
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" [(ngModel)]="order.quantity" placeholder="Enter Quantity" />
+    </div>
+
+    <div>
+      <label for="type">Order Type:</label>
+      <select id="type" [(ngModel)]="order.type">
+        <option value="BUY">Buy</option>
+        <option value="SELL">Sell</option>
+      </select>
+    </div>
+
+    <button (click)="placeOrder()" [disabled]="isLoading">Place Order</button>
+
+    <div *ngIf="message" class="message">{{ message }}</div>
+  </div>
+</div>

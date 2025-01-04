@@ -1,0 +1,50 @@
+<div class="portfolio-container">
+  <h3>Your Portfolios</h3>
+  <ul class="portfolio-list" *ngIf="portfolios.length > 0; else noPortfolios">
+    <li class="portfolio-item" *ngFor="let portfolio of portfolios">
+      <p><strong>Name:</strong> {{ portfolio.name }}</p>
+      <p><strong>Balance:</strong> {{ portfolio.balance | currency }}</p>
+
+      <ul class="assets-list">
+        <li class="asset-item" *ngFor="let asset of portfolio.assets">
+          <p><strong>Asset Name:</strong> {{ asset.name }}</p>
+          <p><strong>Price:</strong> {{ asset.price | currency }}</p>
+          <p><strong>Quantity:</strong> {{ asset.quantity }}</p>
+
+          <!-- Orders for this asset -->
+          <ul class="orders-list" *ngIf="asset.orders && asset.orders.length > 0; else noOrders">
+            <li class="orders-item" *ngFor="let order of asset.orders">
+              <p><strong>Order Price:</strong> {{ order.price | currency }}</p>
+              <p><strong>Timestamp:</strong> {{ order.timestamp }}</p>
+              <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+              <p><strong>Type:</strong> {{ order.type }}</p>
+            </li>
+          </ul>
+          <ng-template #noOrders>
+            <p>No orders available for this asset.</p>
+          </ng-template>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <ng-template #noPortfolios>
+    <p>No portfolios available.</p>
+  </ng-template>
+
+  <h3>Create a New Portfolio</h3>
+  <form (ngSubmit)="createPortfolio()" class="create-portfolio-form">
+    <div class="input-group">
+      <input
+        id="portfolioName"
+        type="text"
+        [(ngModel)]="newPortfolioName"
+        name="portfolioName"
+        placeholder="Enter portfolio name"
+        required
+      />
+    </div>
+    <button type="submit">Create Portfolio</button>
+  </form>
+  <p *ngIf="creationMessage">{{ creationMessage }}</p>
+</div>

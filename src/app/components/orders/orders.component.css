@@ -1,0 +1,160 @@
+/* General Body Styling */
+/* General Body Styling */
+body {
+  margin: 0;
+  padding: 20px 0; /* Space above and below */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Adjust to account for padding */
+  min-height: 100vh;
+  background-color: #f4f4f9;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  margin: 20px auto; /* Add space above and below */
+  max-width: 800px;
+  width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+
+
+
+/* Headings Styling */
+h1,
+h2,
+h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Input Container and Controls */
+.input-container,
+.controls,
+.order-form {
+  margin: 20px 0;
+}
+
+input,
+select,
+button {
+  display: block;
+  margin: 10px auto;
+  width: calc(100% - 40px);
+  max-width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Buttons Styling */
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Order Form Specific Styles */
+.order-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.order-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.order-form div {
+  margin-bottom: 15px;
+}
+
+.order-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.order-form input,
+.order-form select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Feedback Message */
+.message {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: green;
+}
+
+/* Chart Container */
+.chart-container {
+  width: 100%;
+  max-width: 800px;
+  height: 400px;
+  margin: 20px auto;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  margin: auto;
+}
+
+/* Controls Styling */
+.controls {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.controls button {
+  margin: 0 10px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: #0056b3;
+}
+
+.controls h3 {
+  margin-right: 20px;
+}
+
+/* Price Container */
+.price-container {
+  font-size: 18px;
+  color: #007bff;
+}

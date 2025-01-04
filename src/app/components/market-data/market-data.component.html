@@ -1,0 +1,100 @@
+<div class="admin-dashboard">
+  <div class="header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage assets, trends, and market data</p>
+  </div>
+
+  <!-- Asset Management Section -->
+  <div class="card">
+    <h2>Select Asset to View Data</h2>
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Search assets..."
+      class="search-bar"
+    />
+    <select
+      size="6"
+      [(ngModel)]="selectedAsset"
+      (change)="loadData(selectedAsset)"
+      class="asset-dropdown"
+    >
+      <option *ngFor="let asset of filteredAssets()" [value]="asset">
+        {{ asset }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-message">Loading data, please wait...</div>
+
+  <div class="card" *ngIf="currentPrice !== null">
+    <h2>Asset Data</h2>
+    <p>Current Price: <strong>{{ currentPrice }}</strong></p>
+  </div>
+
+  <div class="card chart-container">
+    <h2>Price History</h2>
+    <canvas #lineChart></canvas>
+  </div>
+
+  <!-- Timeframe Controls -->
+  <div class="card controls">
+    <h2>View Data</h2>
+    <button
+      (click)="selectedAsset && fetchHistoricalData(selectedAsset, '1hour')"
+      [disabled]="!selectedAsset || isLoading"
+    >
+      1 Hour
+    </button>
+    <button
+      (click)="selectedAsset && fetchHistoricalData(selectedAsset, '5hours')"
+      [disabled]="!selectedAsset || isLoading"
+    >
+      5 Hours
+    </button>
+    <button
+      (click)="selectedAsset && fetchHistoricalData(selectedAsset, '1day')"
+      [disabled]="!selectedAsset || isLoading"
+    >
+      1 Day
+    </button>
+    <button
+      (click)="selectedAsset && fetchHistoricalData(selectedAsset, '5days')"
+      [disabled]="!selectedAsset || isLoading"
+    >
+      5 Days
+    </button>
+    <button
+      (click)="selectedAsset && fetchHistoricalData(selectedAsset, '1month')"
+      [disabled]="!selectedAsset || isLoading"
+    >
+      1 Month
+    </button>
+  </div>
+
+  <!-- Modify Asset Trends -->
+  <div class="card">
+    <h2>Modify Asset Trends</h2>
+    <div *ngIf="selectedAsset">
+      <h4>{{ selectedAsset }}</h4>
+      <select [(ngModel)]="assetTrends[selectedAsset]" (change)="updateTrend(selectedAsset)">
+        <option value="UP">UP</option>
+        <option value="DOWN">DOWN</option>
+        <option value="STABLE">STABLE</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Add New Asset -->
+  <div class="card">
+    <h2>Add New Asset</h2>
+    <input
+      type="text"
+      [(ngModel)]="newAssetName"
+      placeholder="Enter asset name"
+      [disabled]="isLoading"
+    />
+    <button (click)="addNewAsset()" [disabled]="isLoading || !newAssetName.trim()">Add Asset</button>
+    <p *ngIf="creationMessage">{{ creationMessage }}</p>
+  </div>
+</div>

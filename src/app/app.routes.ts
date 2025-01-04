@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { PortfolioComponent } from './components/portfolios/portfolios.component';
 import { OrderComponent } from './components/orders/orders.component';
 import { AssetsComponent } from './components/assets/assets.component';
@@ -8,19 +7,11 @@ import { TransferFundsComponent } from './components/transfer-funds/transfer-fun
 import { HomeComponent } from './home/home.component';
 
 
-const routes: Routes = [
-  { path: '', redirectTo: '/users', pathMatch: 'full' },
+export const routes: Routes = [
   { path: 'portfolios', component: PortfolioComponent },
   { path: 'orders', component: OrderComponent },
   { path: 'assets', component: AssetsComponent },
   { path: 'market', component: MarketDataComponent },
-  { path: 'transfer-funds', component: TransferFundsComponent },
-  { path: 'home', component: HomeComponent},
-  { path: '**', redirectTo: '/users' }
+  { path: 'transfer-funds', component: TransferFundsComponent }, // Add Buy Order route
+  { path: 'home', component: HomeComponent }, // Add Buy Order route
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}
