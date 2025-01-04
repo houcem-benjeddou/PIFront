@@ -1,6 +1,3 @@
-/**
- * AnalyseComponent - Composant Angular pour l'analyse des données de marché
- */
 import { Component, OnInit } from '@angular/core';
 import { AnalyseService } from '../../../Services/analyse.service';
 import { ChartOptions, ChartData, ChartType } from 'chart.js';
@@ -116,11 +113,14 @@ export class AnalyseComponent implements OnInit {
   // Moyennes pour les calculs
   averages: Record<string, number> = this.initializeAverages();
   // private router: any;
+  selectedView: string | null = null; // Pour suivre le bouton/clique actif
 
   constructor(private analyseService: AnalyseService,private router: Router) {}
 
   ngOnInit(): void {}
-
+  showView(viewName: string): void {
+    this.selectedView = viewName;
+  }
   // Initialisation des moyennes
   private initializeAverages(): Record<string, number> {
     return {
@@ -224,7 +224,7 @@ export class AnalyseComponent implements OnInit {
     }
   }
 
-  // Récupération des options historiques
+// Récupération des options historiques
   getHistoricalOptions(): void {
     if (this.validateSymbol()) {
       this.analyseService.getHistoricalOptions(this.symbol).subscribe({
@@ -234,6 +234,7 @@ export class AnalyseComponent implements OnInit {
             this.calculateAverages(validOptions);
             this.historicalChartData.labels = Object.keys(this.averages);
             this.historicalChartData.datasets[0].data = Object.values(this.averages);
+            this.historicalOptions = validOptions;  // Stocker les options historiques
             this.selectedChart = 'historical';
           } else {
             this.errorMessage = 'Aucune donnée historique valide disponible.';
@@ -243,6 +244,7 @@ export class AnalyseComponent implements OnInit {
       });
     }
   }
+
 
   // Validation des options
   private isValidOption(option: any): boolean {

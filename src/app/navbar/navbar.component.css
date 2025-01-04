@@ -55,3 +55,21 @@ mat-menu-item:hover {
 .material-icons {
   font-size: 20px;
 }
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-fluid {
+  flex: 1;
+}
+
+footer {
+  background-color: #34495e;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: auto;
+}

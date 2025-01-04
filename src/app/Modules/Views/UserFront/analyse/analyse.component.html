@@ -1,7 +1,7 @@
 <div class="container-fluid mt-5 text-center">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0">Analyse du Marché pour le Symbole : {{ symbol }}</h2>
-    <button class="btn btn-secondary" (click)="navigateToAnaf()">Analyse fondamentale</button>
+    <button class="btn btn-secondary ml-auto" (click)="navigateToAnaf()">Analyse fondamentale</button>
   </div>
   <div class="input-container">
     <input [(ngModel)]="symbol" class="form-control input-symbol" placeholder="Entrez un symbole (ex: AAPL)" />
@@ -48,6 +48,53 @@
     </div>
     <div class="card-body chart-full">
       <canvas baseChart [data]="historicalChartData" [options]="chartOptions" [type]="chartType"></canvas>
+    </div>
+    <!-- Tableau des options historiques -->
+    <div class="table-responsive mt-4">
+      <table class="table table-bordered table-striped shadow">
+        <thead>
+        <tr>
+          <th>Contract ID</th>
+          <th>Symbole</th>
+          <th>Expiration</th>
+          <th>Strike</th>
+          <th>Type</th>
+          <th>Last</th>
+          <th>Mark</th>
+          <th>Bid</th>
+          <th>Ask</th>
+          <th>Volume</th>
+          <th>Open Interest</th>
+          <th>Implied Volatility</th>
+          <th>Delta</th>
+          <th>Gamma</th>
+          <th>Theta</th>
+          <th>Vega</th>
+          <th>Rho</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let option of historicalOptions">
+          <td>{{ option.contractID }}</td>
+          <td>{{ option.symbol }}</td>
+          <td>{{ option.expiration }}</td>
+          <td>{{ option.strike }}</td>
+          <td>{{ option.type }}</td>
+          <td>{{ option.last }}</td>
+          <td>{{ option.mark }}</td>
+          <td>{{ option.bid }}</td>
+          <td>{{ option.ask }}</td>
+          <td>{{ option.volume }}</td>
+          <td>{{ option.open_interest }}</td>
+          <td>{{ option.implied_volatility }}</td>
+          <td>{{ option.delta }}</td>
+          <td>{{ option.gamma }}</td>
+          <td>{{ option.theta }}</td>
+          <td>{{ option.vega }}</td>
+          <td>{{ option.rho }}</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 

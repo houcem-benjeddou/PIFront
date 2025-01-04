@@ -1,0 +1,12 @@
+table {
+  background-color: white; /* Fond blanc pour le tableau */
+}
+
+table td {
+  color: #2c3e50; /* Couleur personnalisée pour les variables */
+}
+
+table th {
+  background-color: #34495e; /* Fond des en-têtes du tableau */
+  color: white; /* Couleur du texte des en-têtes */
+}
