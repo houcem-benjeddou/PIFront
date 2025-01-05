@@ -121,7 +121,7 @@ export class MarketDataComponent implements OnInit {
     return this.assets.filter((asset) =>
       asset.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
-  }
+  } 
 
   onAssetSelect(): void {
     // When an asset is selected from the dropdown

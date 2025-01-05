@@ -18,8 +18,8 @@ export class PortfolioComponent implements OnInit {
   userId = 1; // Default user ID (can be dynamically set if needed)
   newPortfolioName = ''; // For storing the new portfolio name
   creationMessage = ''; // For success/error messages
-  showOrdersModal = false; // To control the visibility of the modal
-
+  currentOrders: { price: number; quantity: number; timestamp: string; type: string }[] = []; // Orders to display in the modal
+  showOrdersModal = false;
   constructor(private portfolioService: PortfolioService) {}
 
   ngOnInit(): void {
@@ -61,5 +61,13 @@ export class PortfolioComponent implements OnInit {
     );
   }
 
- 
+  openOrdersModal(orders: { price: number; quantity: number; timestamp: string; type: string }[]): void {
+    this.currentOrders = orders;
+    this.showOrdersModal = true;
+  }
+
+  closeOrdersModal(): void {
+    this.showOrdersModal = false;
+    this.currentOrders = [];
+  }
 }

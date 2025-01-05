@@ -31,6 +31,9 @@ export class TransferFundsComponent {
       .subscribe({
         next: (response) => {
           this.message = 'Funds transferred successfully.';
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000); 
         },
         error: (error) => {
           this.message = 'Transfer failed: ' + error.error;

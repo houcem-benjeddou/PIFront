@@ -1,18 +1,20 @@
 import { Component, HostListener, OnInit  } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Import CommonModule for NgIf
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user.model';
+
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit{
-  username: string = '';
-  balance: number = 0.0;
-  userId = 1;
+  user!: User;
+  userId = 1; 
   menuOpen: boolean = false; // Track menu toggle for responsive design
   activeRoute: string = ''; // Track the current active route
 
@@ -22,8 +24,9 @@ export class NavbarComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getUserDetails();
+    this.fetchUserDetails();
   }
+
 
   // Method to toggle the menu visibility
   toggleMenu(): void {
@@ -41,11 +44,10 @@ export class NavbarComponent implements OnInit{
     this.activeRoute = this.router.url;
   }
 
-  getUserDetails(): void {
-    this.userService.getUserDetails(this.userId).subscribe(
+  fetchUserDetails(): void {
+    this.userService.getUserById(this.userId).subscribe(
       (data) => {
-        this.username = data.username;
-        this.balance = data.balance;
+        this.user = data;
       },
       (error) => {
         console.error('Error fetching user details:', error);

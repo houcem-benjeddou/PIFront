@@ -35,5 +35,7 @@ export class MarketDataService {
     const url = `${this.apiUrl}/all-assets`;
     return this.http.get<string[]>(url);
   }
+
+  
   
 }

@@ -15,7 +15,9 @@ import {
   Tooltip,
 } from 'chart.js';
 import { MarketDataService } from 'src/app/services/market-data.service';
+import { PortfolioService } from 'src/app/services/portfolio.service';
 import { MarketData } from 'src/app/models/market-data';
+import { interval, Subscription } from 'rxjs'; // Added for polling mechanism
 
 // Register Chart.js components
 Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Legend, Title, Tooltip);
@@ -38,9 +40,15 @@ export class OrderComponent implements OnInit {
 
   message: string = '';
   marketData: MarketData[] = [];
+  portfolios: { id: number; name: string }[] = [];
   assetName = '';
   currentPrice: number | null = null;
   isLoading = false;
+  userId: number = 1; // Default user ID (set it dynamically if needed)
+
+
+  pricePollingSubscription!: Subscription; // Added subscription to manage polling
+
 
   @ViewChild('lineChart', { static: true }) chartRef!: ElementRef;
   chart: Chart | undefined;
@@ -49,10 +57,44 @@ export class OrderComponent implements OnInit {
     datasets: [{ data: [], label: '' }],
   };
 
-  constructor(private orderService: OrderService, private marketDataService: MarketDataService) {}
+  constructor(private orderService: OrderService, private marketDataService: MarketDataService, private portfolioService: PortfolioService) {}
 
   ngOnInit(): void {
     this.initializeChart();
+    // Start polling for updates every 5 seconds
+    // Fetch user's portfolios
+  this.fetchUserPortfolios();
+
+  interval(5000).subscribe(() => {
+    if (this.assetName) {
+      this.fetchCurrentPrice(this.assetName); // Fetch current price dynamically
+    }
+  });
+  }
+
+
+  fetchUserPortfolios(): void {
+    this.portfolioService.getPortfoliosByUser(this.userId).subscribe(
+      (portfolios) => {
+        this.portfolios = portfolios.map((p) => ({ id: p.id, name: p.name }));
+      },
+      (error) => {
+        console.error('Error fetching portfolios:', error);
+      }
+    );
+  }
+
+  fetchCurrentPrice(assetName: string): void {
+    this.marketDataService.getCurrentMarketData(assetName).subscribe(
+      (currentData) => {
+        this.currentPrice = currentData.currentPrice; // Update current price
+        const timestamp = new Date(currentData.date).toLocaleString(); // Format timestamp
+        this.updateGraph(currentData.currentPrice, timestamp); // Update the graph
+      },
+      (error) => {
+        console.error('Error fetching current market data:', error);
+      }
+    );
   }
 
   initializeChart(): void {
@@ -82,28 +124,56 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  fetchHistoricalData(assetName: string, filter: string): void {
+  startPricePolling(assetName: string): void { // Added method for polling the price
     if (!assetName) {
       alert('Please provide a valid asset name.');
       return;
     }
 
-    this.isLoading = true;
+    this.pricePollingSubscription = interval(5000).subscribe(() => { // Poll every 5 seconds
+      this.marketDataService.getCurrentMarketData(assetName).subscribe(
+        (currentData) => {
+          this.currentPrice = currentData.currentPrice; // Update the current price
+          
+          this.updateGraph(currentData.currentPrice, new Date(currentData.date).toLocaleString()); // Update the graph
+        },
+        (error) => {
+          console.error('Error fetching current market data:', error);
+        }
+      );
+    });
+  }
 
+  fetchHistoricalData(assetName: string, filter: string): void {
+    if (!assetName) {
+      alert('Please provide a valid asset name.');
+      return;
+    }
+  
+    this.isLoading = true;
+  
     this.marketDataService.getHistoricalData(assetName).subscribe(
       (data) => {
-        const filteredData = this.filterData(data, filter);
-        this.updateChartData(filteredData, assetName);
+        if (data.length === 0) {
+          // Handle case where no data is returned
+          alert('No historical data available for the specified asset.');
+          this.isLoading = false;
+          return;
+        }
+  
+        const filteredData = this.filterData(data, filter); // Filter data based on the selected timeframe
+        this.updateChartData(filteredData, assetName); // Update the chart with filtered data
         this.isLoading = false;
       },
       (error) => {
+        // Enhanced error handling
         console.error('Error fetching historical data:', error);
-        alert('Failed to fetch historical data.');
+        alert('Failed to fetch historical data. Please check your network or the asset name.');
         this.isLoading = false;
       }
     );
   }
-
+  
   filterData(data: MarketData[], filter: string): MarketData[] {
     const now = Date.now();
     let threshold = now;
@@ -188,11 +258,40 @@ export class OrderComponent implements OnInit {
     );
   }
 
+  updateGraph(price: number, timestamp: string): void {
+    if (this.chart) {
+      // Ensure labels and datasets are initialized
+      if (!this.chart.data.labels) {
+        this.chart.data.labels = []; // Initialize labels if undefined
+      }
+  
+      if (!this.chart.data.datasets[0].data) {
+        this.chart.data.datasets[0].data = []; // Initialize dataset data if undefined
+      }
+  
+      // Add new timestamp and price
+      this.chart.data.labels.push(timestamp); // Add new timestamp
+      (this.chart.data.datasets[0].data as number[]).push(price); // Add new price (cast to number[])
+  
+      // Keep the graph limited to 50 points
+      if (this.chart.data.labels.length > 50) {
+        this.chart.data.labels.shift(); // Remove the oldest timestamp
+        (this.chart.data.datasets[0].data as number[]).shift(); // Remove the oldest price
+      }
+  
+      this.chart.update(); // Refresh the chart
+    }
+  }
+  
   placeOrder(): void {
+    this.order.assetName = this.assetName; // Auto-fill asset name
     this.order.price = this.currentPrice || 0; // Use current price
     this.orderService.placeOrder(this.order).subscribe(
       () => {
-        this.message = 'Order placed successfully!';
+        const totalPrice = (this.order.price * this.order.quantity).toFixed(2);
+      this.message = `Order placed successfully! Type: ${this.order.type}, Quantity: ${this.order.quantity}, 
+                      Price: ${this.order.price.toFixed(2)}, Total: ${totalPrice}`;
+      this.order.quantity = 0; // Clear quantity input
       },
       (error) => {
         console.error('Error placing order:', error);
