@@ -1,13 +1,10 @@
-export class Portfolio {
-    id!: number;
-    balance!: number;
-    // Add any other properties related to Portfolio
-  }
-  
+import { Portfolio } from "./portfolio.model";
+
   export class User {
     id!: number;
     username!: string;
     password!: string;
+    balance!: number;
     portfolios!: Portfolio[];  // Add this line to include portfolios
   }
   
