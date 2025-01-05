@@ -4,6 +4,7 @@ export class Asset {
     id!: number;
     name!: string;
     price!: number;
+    benefits!: number;
     quantity!: number;
     type!: string;  // Could be stock, bond, etc.
     // Add any other asset-specific properties

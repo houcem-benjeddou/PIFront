@@ -2,12 +2,11 @@ import { Asset } from "./asset.model";
 import { Order } from "./order.model";
 
 export class Portfolio {
-    id!: number;
-    balance!: number;
-    name!: string;      // The unique name of the portfolio
-    userId!: number;  // Assuming a portfolio belongs to a user
-    // Add any other portfolio-specific properties
-    assets!: Asset[];
-    orders!: Order[];
-  }
-  
+  id!: number;
+  balance!: number;
+  name!: string; // Portfolio name
+  userId!: number; // User ID
+  assets!: Asset[]; // List of assets
+  orders!: Order[]; // List of orders
+   // Default to an empty string
+}

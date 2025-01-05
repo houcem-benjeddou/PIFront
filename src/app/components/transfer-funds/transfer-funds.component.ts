@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { PortfolioService } from 'src/app/services/portfolio.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Portfolio } from 'src/app/models/portfolio.model';
 
 @Component({
   selector: 'app-transfer-funds',
@@ -10,45 +11,54 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './transfer-funds.component.html',
   styleUrls: ['./transfer-funds.component.css']
 })
-export class TransferFundsComponent {
-  userId: number = 0;
-  portfolioId: number = 0;
-  amount: number = 0;
-  direction: string = '';
-  message: string = '';
-  isLoading: boolean = false;
-
+export class TransferFundsComponent implements OnInit {
+  portfolios: Portfolio[] = []; // List of portfolios
+  selectedPortfolioId: number = 0; // Selected portfolio ID
+  amount: number = 0; // Amount to transfer
+  direction: string = 'toPortfolio'; // Transfer direction
+  message: string = ''; // Success or error message
+  isLoading: boolean = false; // Loading state
+  userId: number = 1; // Fixed user ID
 
   constructor(private portfolioService: PortfolioService) {}
 
+  ngOnInit(): void {
+    this.fetchPortfolios(); // Fetch portfolios on component initialization
+  }
+
+  fetchPortfolios(): void {
+    this.isLoading = true;
+    this.portfolioService.getPortfoliosByUser(this.userId).subscribe(
+      (data) => {
+        this.portfolios = data;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error fetching portfolios:', error);
+        this.isLoading = false;
+      }
+    );
+  }
+
   onSubmit(): void {
-    if (this.direction !== 'toPortfolio' && this.direction !== 'toUser') {
-      this.message = 'Invalid transfer direction. Use "toPortfolio" or "toUser".';
+    if (!this.selectedPortfolioId || !this.amount || !this.direction) {
+      this.message = 'Please fill in all fields.';
       return;
     }
 
-    this.portfolioService.transferFunds(this.userId, this.portfolioId, this.amount, this.direction)
-      .subscribe({
-        next: (response) => {
-          this.message = 'Funds transferred successfully.';
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000); 
+    this.isLoading = true;
+    this.portfolioService
+      .transferFunds(this.userId, this.selectedPortfolioId, this.amount, this.direction)
+      .subscribe(
+        (response) => {
+          this.message = 'Funds transferred successfully!';
+          this.isLoading = false;
         },
-        error: (error) => {
-          this.message = 'Transfer failed: ' + error.error;
+        (error) => {
+          console.error('Error transferring funds:', error);
+          this.message = 'Failed to transfer funds.';
+          this.isLoading = false;
         }
-      });
-      if (!this.userId || !this.portfolioId || !this.amount) {
-        this.message = 'All fields are required!';
-        return;
-      }
-  
-      this.isLoading = true;
-      setTimeout(() => {
-        this.isLoading = false;
-        this.message = 'Funds transferred successfully!';
-      }, 2000); // Simulate a server request
+      );
   }
-  
 }

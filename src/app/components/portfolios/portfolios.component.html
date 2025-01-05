@@ -2,17 +2,22 @@
   <h3>Your Portfolios</h3>
   <ul class="portfolio-list" *ngIf="portfolios.length > 0; else noPortfolios">
     <li class="portfolio-item" *ngFor="let portfolio of portfolios">
-      <p><strong>Name:</strong> {{ portfolio.name }}</p>
+      <p><strong>Name:</strong> {{ portfolio.name }}</p> 
       <p><strong>Balance:</strong> {{ portfolio.balance | currency:'TND':'symbol':'1.2-2' }}</p>
 
       <ul class="assets-list">
         <li class="asset-item" *ngFor="let asset of portfolio.assets">
           <p><strong>Asset Name:</strong> {{ asset.name }}</p>
-          <p><strong>Price:</strong> {{ asset.price | currency:'TND':'symbol':'1.2-2' }}</p>
-          <p><strong>Quantity:</strong> {{ asset.quantity }}</p>
+          <p [ngClass]="{'text-danger': asset.price < 0, 'text-success': asset.price >= 0}">
+  <strong>{{ asset.price < 0 ? 'Loss:' : 'Benefits:' }}</strong> {{ asset.price | currency:'TND':'symbol':'1.2-2' }}
+</p>
+                  <p><strong>Qurent Price:</strong> {{ asset.benefits  | currency:'TND':'symbol':'1.2-2' }}</p>
+                  <p><strong>Quantity:</strong> {{ asset.quantity }}</p>
 
           <!-- View Orders Button -->
           <button (click)="openOrdersModal(asset.orders)">View Orders</button>
+          <button (click)="placeOrder(asset.name,asset.benefits,asset.quantity,'SELL',portfolio.id)" style="margin-left: 10px;">Sell All</button>
+
         </li>
       </ul>
     </li>

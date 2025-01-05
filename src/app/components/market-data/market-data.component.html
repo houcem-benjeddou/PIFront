@@ -47,22 +47,10 @@
       1 Hour
     </button>
     <button
-      (click)="selectedAsset && fetchHistoricalData(selectedAsset, '5hours')"
-      [disabled]="!selectedAsset || isLoading"
-    >
-      5 Hours
-    </button>
-    <button
       (click)="selectedAsset && fetchHistoricalData(selectedAsset, '1day')"
       [disabled]="!selectedAsset || isLoading"
     >
       1 Day
-    </button>
-    <button
-      (click)="selectedAsset && fetchHistoricalData(selectedAsset, '5days')"
-      [disabled]="!selectedAsset || isLoading"
-    >
-      5 Days
     </button>
     <button
       (click)="selectedAsset && fetchHistoricalData(selectedAsset, '1month')"

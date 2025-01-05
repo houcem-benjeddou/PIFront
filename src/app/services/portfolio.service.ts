@@ -33,5 +33,11 @@ export class PortfolioService {
     const payload = { name, userId }; // Include userId in the payload
     return this.http.post(`${this.apiUrl}/create-portfolio`, payload);
 }
+
+updatePortfolioName(portfolioId: number, newName: string): Observable<any> {
+  const url = `${this.apiUrl}/${portfolioId}/update-name`; // Adjust API endpoint as needed
+  return this.http.put(url, { name: newName });
+}
+
   
 }
