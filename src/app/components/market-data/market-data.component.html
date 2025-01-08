@@ -65,7 +65,7 @@
     <h2>Modify Asset Trends</h2>
     <div *ngIf="selectedAsset">
       <h4>{{ selectedAsset }}</h4>
-      <select [(ngModel)]="assetTrends[selectedAsset]" (change)="updateTrend(selectedAsset)">
+      <select [(ngModel)]="assetTrends[selectedAsset]">
         <option value="UP">UP</option>
         <option value="DOWN">DOWN</option>
         <option value="STABLE">STABLE</option>

@@ -61,11 +61,9 @@ export class OrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeChart();
-    // Start polling for updates every 5 seconds
-    // Fetch user's portfolios
   this.fetchUserPortfolios();
 
-  interval(5000).subscribe(() => {
+  interval(60000).subscribe(() => {
     if (this.assetName) {
       this.fetchCurrentPrice(this.assetName); // Fetch current price dynamically
     }

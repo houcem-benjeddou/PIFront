@@ -21,11 +21,6 @@ export class MarketDataService {
     return this.http.get<MarketData>(url);
   }
 
-  setAssetTrend(assetName: string, trend: string): Observable<void> {
-    const url = `${this.apiUrl}/set-trend`;
-    return this.http.post<void>(url, { assetName, trend });
-  }
-
   addAsset(assetName: string): Observable<any> {
     const url = `${this.apiUrl}/add-asset`;
     return this.http.post<any>(url, { assetName });

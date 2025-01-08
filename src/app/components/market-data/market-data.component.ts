@@ -128,17 +128,7 @@ export class MarketDataComponent implements OnInit {
     console.log(`Selected asset: ${this.selectedAsset}`);
   }
 
-  updateTrend(asset: string): void {
-    const trend = this.assetTrends[asset];
-    this.marketDataService.setAssetTrend(asset, trend).subscribe(
-      () => alert(`Trend for ${asset} updated to ${trend}`),
-      (error) => {
-        console.error('Error updating trend:', error);
-        alert('Failed to update trend. Please try again.');
-      }
-    );
-  }
-
+  
 
   private initializeTrends(): void {
     for (const asset of this.assets) {
