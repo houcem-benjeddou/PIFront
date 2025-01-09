@@ -1,51 +1,22 @@
 <nav>
-  <img src="assets/tradey.webp" alt="Logo" class="logo">
-  <div class="navbar-collapse w-100 collapse" id="navbarCollapse">
-
-    <ul class="navbar-nav navbar-nav-scroll mx-auto">
-      <li class="nav-item">
-        <a href="/chatgpt" class="nav-link btn btn-primary text-white" data-bs-target="#chatbotModal">
-          <i class="fas fa-robot me-2"></i> Chat with Bot
-        </a>
-      </li>
-    </ul>
-  </div>
-  <ul class="navbar-nav navbar-nav-scroll mx-auto">
-    <li class="nav-item">
-      <a href="/ana" class="nav-link btn btn-primary text-white" >
-        <i class="fas fa-robot me-2"></i> Analyse
-      </a>
-    </li>
-  </ul>
-<!--  <ul>-->
-<!--    <li>-->
-<!--      &lt;!&ndash; Bouton principal pour afficher les options &ndash;&gt;-->
-<!--      <button-->
-<!--        mat-button-->
-<!--        [matMenuTriggerFor]="analyseMenu"-->
-<!--        class="btn btn-secondary d-flex align-items-center"-->
-<!--      >-->
-<!--        <i class="material-icons">menu</i>-->
-<!--        <span class="ms-2">Analyse</span>-->
-<!--      </button>-->
-
-<!--      &lt;!&ndash; Menu déroulant avec deux options &ndash;&gt;-->
-<!--      <mat-menu #analyseMenu="matMenu">-->
-<!--        <button mat-menu-item (click)="navigateToAna()">-->
-<!--          <i class="material-icons">insights</i>-->
-<!--          <span>Analyse vers Ana</span>-->
-<!--        </button>-->
-<!--        <button mat-menu-item (click)="navigateToAnaf()">-->
-<!--          <i class="material-icons">analytics</i>-->
-<!--          <span>Analyse vers Anaf</span>-->
-<!--        </button>-->
-<!--      </mat-menu>-->
-<!--    </li>-->
-<!--  </ul>-->
+  <img src="assets/tradey.webp" alt="Logo" class="logo" />
   <ul>
-    <li><a routerLink="/home">Home</a></li>
-    <li><a routerLink="/login">Login</a></li>
-    <li><a routerLink="/register">Join Us Now</a></li>
-    <li><a routerLink="/logout">Logout</a></li>
+    <li><a routerLink="/anaf" (click)="closeMenu()">Analyse Fondamentale</a></li>
+    <li><a routerLink="/ana" (click)="closeMenu()">Analyse Technique</a></li>
+    <li><a routerLink="/chatgpt" (click)="closeMenu()">Aide</a></li>
+    <li><a routerLink="/home" (click)="closeMenu()">Home</a></li>
   </ul>
+
+  <!-- Menu Utilisateur -->
+  <div class="user-menu">
+    <div class="user-circle" (click)="toggleMenu()">☰</div>
+    <div class="dropdown-menu" [class.show]="menuOpen">
+      <ul>
+        <li><a routerLink="/register" (click)="closeMenu()">S'inscrire</a></li>
+        <li><a routerLink="/login" (click)="closeMenu()">Se Connecter</a></li>
+        <li><a routerLink="/changepass" (click)="closeMenu()">Changer mot de passe</a></li>
+        <li><a routerLink="/logout" (click)="closeMenu()">Se Déconnecter</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>

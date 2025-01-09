@@ -113,13 +113,32 @@ export class AnalyseComponent implements OnInit {
   // Moyennes pour les calculs
   averages: Record<string, number> = this.initializeAverages();
   // private router: any;
-  selectedView: string | null = null; // Pour suivre le bouton/clique actif
+  selectedView: string = ''; // Pour suivre le bouton/clique actif
 
   constructor(private analyseService: AnalyseService,private router: Router) {}
 
   ngOnInit(): void {}
   showView(viewName: string): void {
+    console.log('Bouton cliqué : ', viewName);
     this.selectedView = viewName;
+
+    switch (viewName) {
+      case 'risk':
+        this.getRisk();
+        break;
+      case 'historical':
+        this.getHistoricalOptions();
+        break;
+      case 'recommendation':
+        this.getRecommendationTrends();
+        break;
+      case 'quota':
+        this.loadStockQuote();
+        break;
+      case 'sentiment':
+        this.getSentimentAnalysis();
+        break;
+    }
   }
   // Initialisation des moyennes
   private initializeAverages(): Record<string, number> {

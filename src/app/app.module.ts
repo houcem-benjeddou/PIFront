@@ -31,6 +31,8 @@ import { AnalyseComponent } from './Modules/Views/UserFront/analyse/analyse.comp
 import { registerables } from 'chart.js';
 import { Chart } from 'chart.js';
 import {MatMenuModule} from "@angular/material/menu";
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
 Chart.register(...registerables);  // Register everything you need for charts
 
 @NgModule({
@@ -64,6 +66,9 @@ Chart.register(...registerables);  // Register everything you need for charts
     MatButtonModule,
     TableModule,
     MatMenuModule,
+    MatIconModule,
+    MatToolbarModule,
+
   ],
   providers: [
     AuthGuard,

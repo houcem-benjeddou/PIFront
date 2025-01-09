@@ -1,17 +1,52 @@
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f4f4f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Assure un centrage vertical et horizontal complet */
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;  /* Centre horizontalement */
+  align-items: center;      /* Centre verticalement */
+  background-color: #f4f4f9; /* Fond gris clair */
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
+/* Conteneur principal centré et plus large */
+.container {
+  max-width: 1200px;       /* Augmente la largeur du conteneur */
+  width: 90%;              /* Ajuste la taille pour petits écrans */
+  margin: auto;
+  padding: 40px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
+
+/* Boutons étirés pour meilleure lisibilité */
+button {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+}
+
+/* Style des sections bleues */
+button, .card-header {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 18px;
+}
+
+/* Tableau et graphique centrés */
+.table, .chart-container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;  /* Limite la taille des tableaux et graphiques */
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  height: auto;
+}
+
 
 .input-container {
   text-align: center;
@@ -467,4 +502,72 @@ footer {
   text-align: center;
   padding: 10px 0;
   margin-top: auto;
+}
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;  /* Centre le contenu horizontalement */
+  align-items: center;      /* Centre le contenu verticalement */
+  background-color: #f4f4f9; /* Couleur de fond */
+}
+
+.container {
+  max-width: 1200px;       /* Augmentation de la taille */
+  margin: auto;
+  padding: 40px;           /* Padding augmenté pour un effet plus large */
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 16px;
+}
+/* Centrage complet des graphiques Tendance, Historique et Risque */
+.chart-container {
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+  height: 100%;            /* Prend toute la hauteur disponible */
+  margin-bottom: 30px;     /* Espacement en bas */
+}
+
+/* Taille réduite du graphique Sentiment et centré */
+.sentiment-chart {
+  width: 100%;          /* Prend toute la largeur disponible */
+  height: 200px;        /* Hauteur réduite */
+  max-width: 300px;     /* Limite la largeur maximale */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 0 auto;       /* Centre horizontalement */
+}
+
+/* Ajustements du conteneur global */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Style des titres */
+h2 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+/* Boutons ajustés */
+button {
+  padding: 12px 25px;
+  font-size: 16px;
+  width: 100%;
 }

@@ -16,7 +16,7 @@ export class ForgetPasswordComponent {
 
   sendResetCode() {
     if (!this.email) {
-      this.errorMessage = 'Please enter a valid email address.';
+      this.errorMessage = 'Veuillez saisir une adresse e-mail valide.';
       return;
     }
     this.resetCodeSent = false;
@@ -24,13 +24,19 @@ export class ForgetPasswordComponent {
       response => {
         this.resetCodeSent = true;
         this.errorMessage = '';
-        console.log('Reset code sent successfully.'); // Logging for debugging
-        // Navigate to reset-password component on successful code send
-        //this.router.navigate(['/reset-pass']);
+        console.log('Le code de réinitialisation a été envoyé avec succès.');
       },
       error => {
-        console.error('Error sending reset code:', error);
-        this.errorMessage = 'Failed to send reset code. Please try again.';
+        console.error('Erreur lors de l\'envoi du code de réinitialisation:', error);
+
+        // Gestion des erreurs améliorée avec des messages différents
+        if (error.status === 404) {
+          this.errorMessage = 'Aucun compte trouvé avec cette adresse e-mail.';
+        } else if (error.status === 500) {
+          this.errorMessage = 'Erreur interne du serveur. Veuillez réessayer plus tard.';
+        } else {
+          this.errorMessage = 'Échec de l\'envoi du code. Veuillez réessayer.';
+        }
         this.resetCodeSent = false;
       }
     );

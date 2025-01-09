@@ -10,17 +10,25 @@
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-card:hover, .data-card:hover, .chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
 }
 
 .mat-card-title {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: bold;
+  color: #333;
 }
 
 .mat-card-subtitle {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #757575;
 }
 
@@ -28,37 +36,45 @@
   display: flex;
   gap: 15px;
   align-items: center;
+  margin-top: 15px;
 }
 
 canvas {
   width: 100% !important;
-  height: 400px !important; /* Taille définie pour un rendu proportionné */
+  height: 400px !important;
 }
 
 p-table {
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #e9ecef;
   color: #333;
+  padding: 10px;
 }
+
 .card-body {
   background-color: #ffffff;
 }
 
-/* Styles pour les boutons */
 button {
   font-size: 14px;
   padding: 10px 20px;
+  display: flex;
+  align-items: center;
 }
 
 button:hover {
   background-color: #0056b3;
+  cursor: pointer;
 }
 
-/* Style de l'erreur */
+button mat-icon {
+  margin-right: 8px;
+}
+
 .error {
   font-size: 16px;
   font-weight: bold;
@@ -67,4 +83,3 @@ button:hover {
   padding: 10px;
   border-radius: 5px;
 }
-

@@ -1,15 +1,18 @@
 <div class="container-fluid mt-5 text-center">
+  <!-- Titre et bouton d'analyse -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0">Analyse du Marché pour le Symbole : {{ symbol }}</h2>
-    <button class="btn btn-secondary ml-auto" (click)="navigateToAnaf()">Analyse fondamentale</button>
+<!--    <button class="btn btn-secondary ml-3" (click)="navigateToAnaf()">Analyse fondamentale</button>-->
   </div>
-  <div class="input-container">
-    <input [(ngModel)]="symbol" class="form-control input-symbol" placeholder="Entrez un symbole (ex: AAPL)" />
-    <div class="buttons">
+
+  <!-- Zone d'entrée et boutons d'action -->
+  <div class="input-container mt-4">
+    <input [(ngModel)]="symbol" class="form-control input-symbol text-center" placeholder="Entrez un symbole (ex: AAPL)" />
+    <div class="buttons d-flex justify-content-center flex-wrap">
       <button class="btn btn-primary" (click)="getRecommendationTrends()">Tendances de Recommandation</button>
       <button class="btn btn-info" (click)="getHistoricalOptions()">Options Historiques</button>
       <button class="btn btn-warning" (click)="getRisk()">Évaluation du Risque</button>
-      <button class="btn btn-warning" (click)="loadStockQuote()">Quota</button>
+      <button class="btn btn-dark" (click)="loadStockQuote()">Quota</button>
       <button class="btn btn-success" (click)="getSentimentAnalysis()">Analyse Sentimentale</button>
     </div>
   </div>

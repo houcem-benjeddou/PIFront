@@ -1,40 +1,63 @@
-.input-group-lg > .form-control, .input-group-lg > .input-group-append > button {
-    height: calc(1.5em + 1rem + 2px);
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    line-height: 1.5;
-    border-radius: 0.3rem;
+/* Centrage vertical et horizontal */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-.btn-outline-primary {
-    color: #007bff;
-    border-color: #007bff;
+/* Largeur étendue de la carte (80% de l'écran) */
+.wide-card {
+  max-width: 80%; /* Interface large */
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
 }
 
-.btn-outline-primary:hover {
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
+/* En-tête avec un dégradé */
 .card-header {
-    background: linear-gradient(90deg, #007bff, #6610f2);
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  border-radius: 20px 20px 0 0;
+  color: white;
+  font-size: 2rem;
 }
 
+/* Champ de saisie large et bouton */
+.input-group-lg > .form-control {
+  border-radius: 30px;
+  padding: 1.2rem;
+  font-size: 1.5rem;
+  border: 1px solid #ced4da;
+}
+
+.btn-primary {
+  border-radius: 30px;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #6610f2, #007bff);
+  color: white;
+}
+
+/* Message de réponse toujours large */
 .alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.2);
+  padding: 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
 }
 
-/* Optional: Adjust the border radius for input and button to make it seamless */
-.input-group-lg > .form-control, .input-group-lg > .input-group-append > button {
-    border-radius: 0.3rem;
-}
-
-/* Responsive tweaks */
+/* Responsive : Réduction sur petits écrans */
 @media (max-width: 768px) {
-    .input-group-lg > .form-control, .input-group-lg > .input-group-append > button {
-        font-size: 1rem;
-    }
+  .wide-card {
+    max-width: 100%;
+  }
 }
